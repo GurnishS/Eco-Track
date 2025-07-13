@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Product } from '../types/api';
+import { getSpecificProductImage } from '../utils/productImages';
 
 interface ProductListProps {
   products: Product[];
@@ -64,8 +65,31 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
         {filteredProducts.map(product => (
           <div
             key={product._id}
-            className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+            className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
           >
+            {/* Product Image */}
+            <div className="w-full h-48 overflow-hidden">
+              <img
+                src={getSpecificProductImage(product)}
+                alt={product.productName}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.style.background = 'linear-gradient(135deg, #f3f4f6, #e5e7eb)';
+                  target.parentElement!.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center">
+                      <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                    </div>
+                  `;
+                }}
+              />
+            </div>
+            
+            <div className="p-4">
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-800 mb-1">
@@ -130,6 +154,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
             >
               Add to Cart
             </button>
+            </div>
           </div>
         ))}
       </div>

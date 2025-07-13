@@ -100,15 +100,44 @@ const HomePage: React.FC = () => {
             >
               <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl p-8 shadow-2xl">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[1, 2, 3, 4].map((i) => (
+                  {[
+                    { 
+                      img: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200&h=150&fit=crop&crop=center&auto=format&q=80',
+                      score: 95,
+                      name: 'Organic Apples'
+                    },
+                    { 
+                      img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=200&h=150&fit=crop&crop=center&auto=format&q=80',
+                      score: 88,
+                      name: 'Eco Water Bottle'
+                    },
+                    { 
+                      img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=200&h=150&fit=crop&crop=center&auto=format&q=80',
+                      score: 75,
+                      name: 'Organic Milk'
+                    },
+                    { 
+                      img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=200&h=150&fit=crop&crop=center&auto=format&q=80',
+                      score: 65,
+                      name: 'Healthy Snacks'
+                    }
+                  ].map((product, i) => (
                     <div key={i} className="bg-white rounded-lg p-4 shadow-sm">
-                      <div className="w-full h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                        <ShoppingCart className="h-8 w-8 text-gray-400" />
+                      <div className="w-full h-20 rounded-lg mb-3 overflow-hidden">
+                        <img 
+                          src={product.img} 
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div className="h-2 bg-green-200 rounded-full mb-2">
-                        <div className="h-2 bg-green-500 rounded-full" style={{ width: `${70 + i * 5}%` }}></div>
+                        <div 
+                          className="h-2 bg-green-500 rounded-full transition-all duration-1000" 
+                          style={{ width: `${product.score}%` }}
+                        ></div>
                       </div>
-                      <div className="text-xs text-gray-500">EcoScore: {70 + i * 5}/100</div>
+                      <div className="text-xs text-gray-600 text-center">EcoScore: {product.score}/100</div>
+                      <div className="text-xs text-gray-500 text-center mt-1">{product.name}</div>
                     </div>
                   ))}
                 </div>

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import type { CartItem, Suggestion } from '../types/api';
 import EcoScoreChart from '../components/EcoScoreChart';
+import { getSpecificProductImage } from '../utils/productImages';
 
 interface CartPageProps {
   cart: CartItem[];
@@ -177,9 +178,26 @@ const CartPage: React.FC<CartPageProps> = ({
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="flex items-center space-x-4 p-4 border border-gray-200 rounded-xl hover:border-green-200 transition-colors"
                 >
-                  {/* Product Image Placeholder */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                    <ShoppingBag className="h-6 w-6 text-gray-400" />
+                  {/* Product Image */}
+                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={getSpecificProductImage(item.product)}
+                      alt={item.product.productName}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.parentElement!.style.background = 'linear-gradient(135deg, #f3f4f6, #e5e7eb)';
+                        target.parentElement!.innerHTML = `
+                          <div class="w-full h-full flex items-center justify-center">
+                            <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                          </div>
+                        `;
+                      }}
+                    />
                   </div>
                   
                   {/* Product Details */}
